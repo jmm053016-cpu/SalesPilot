@@ -2,7 +2,7 @@
 
 **Languages:** English | [简体中文](README_zh-CN.md)
 
-**A session-aware sales analytics workbench that turns CSV, Excel, and SQLite data into explainable analysis and downloadable business reports.**
+**An AI-assisted sales analytics workbench that turns CSV, Excel, and SQLite data into traceable metrics, business insights, and downloadable reports.**
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/UI-Streamlit-ff4b4b?logo=streamlit&logoColor=white)](https://streamlit.io/)
@@ -10,22 +10,24 @@
 
 [GitHub](https://github.com/jmm053016-cpu/SalesPilot) · [Gitee mirror](https://gitee.com/gold-m/sales-pilot)
 
-SalesPilot combines deterministic sales calculations with an optional language-model assistant. The application validates imported data, shows which metrics can be calculated, and exports analysis results as Word or PDF reports. Language models can help with narrative interpretation and follow-up questions; they do not calculate or invent numeric results.
+SalesPilot automates the path from data import to analysis. With DeepSeek configured, its agent can inspect a source, map fields, validate and save a dataset, and run the requested analysis without a separate manual analysis step. A deterministic Python engine computes every metric; the model explains the returned evidence and supports follow-up discussion, but never invents numeric results. Reports are available as Word or PDF.
 
 ## Interface Preview
 
-![SalesPilot data source workbench](screenshots/salespilot-workbench.png)
+![SalesPilot sales analytics workbench](screenshots/salespilot-workbench.png)
 
-The preview shows the current data-source workflow before a dataset is uploaded. The workbench supports CSV, Excel, and SQLite inputs and guides the user through validation, analysis, insights, and report export.
+The preview shows the current data-source workbench, including persistent conversation history and CSV, Excel, and SQLite import options. After import, the agent can validate the data and start the analysis workflow; results and reports remain available in the conversation.
 
 ## Features
 
 - Import CSV and Excel files, or connect to a supported SQLite data source.
-- Map common column names to a canonical sales schema and validate dates, amounts, currency, and data grain before analysis.
+- Let the agent inspect source columns, propose field mappings, validate the data, save the dataset, and launch analysis.
+- Preserve source amount precision with decimal arithmetic instead of rounding imported values to two decimal places.
 - Calculate sales, net sales, gross profit, order counts, period comparisons, rankings, and anomalies when the required source fields are available.
 - Keep unavailable metrics explicit instead of estimating missing values.
 - Export reports and supporting charts as Word or PDF.
-- Continue analysis in session-scoped conversations with an optional LLM-powered assistant.
+- Persist conversations and their dataset, analysis, and report bindings in local SQLite storage; archived conversations are read-only and can be restored.
+- Discuss saved analysis results with the DeepSeek-powered assistant; optional Tavily search can add external market context.
 - Restrict the assistant to dataset inspection, controlled analysis requests, and report export; it does not accept arbitrary SQL, Python, file paths, or user code.
 
 ## Requirements
@@ -82,11 +84,12 @@ Copy `.env.example` to `.env` and add the credentials for the provider you want 
 
 | Variable | Purpose |
 | --- | --- |
-| `DEEPSEEK_API_KEY` | Enables DeepSeek-powered report narratives and follow-up conversations. |
+| `DEEPSEEK_API_KEY` | Enables agent-managed import and analysis, report narratives, and follow-up conversations. |
 | `DEEPSEEK_MODEL` | DeepSeek model name; defaults to `deepseek-flash`. |
 | `DEEPSEEK_BASE_URL` | DeepSeek-compatible API endpoint; defaults to `https://api.deepseek.com`. |
+| `TAVILY_API_KEY` | Optional web search for external market and industry context. |
 
-Without model credentials, deterministic analysis and report export remain available; model-assisted narrative and follow-up features are disabled.
+Without DeepSeek credentials, deterministic analysis and report generation remain available, but agent-managed workflows and model-assisted discussion are disabled. Tavily is optional and only adds web search; search results do not participate in sales metric calculations.
 
 ## Data and Analysis
 
@@ -94,9 +97,9 @@ The import workflow previews source data, maps recognized column aliases, valida
 
 Required fields include a parseable order date and a non-negative sales amount. Optional fields such as refunds, cost, order ID, quantity, product, category, region, and currency enable additional metrics and breakdowns. Mixed-currency datasets are rejected; currency conversion is not performed.
 
-Analysis is deterministic. For example, net sales require refund information or an explicit confirmation that there were no refunds; order counts require order-level detail and order IDs; gross profit requires cost data. Missing inputs are reported as unavailable rather than inferred.
+Analysis is deterministic and uses decimal arithmetic for monetary calculations. For example, net sales require refund information or an explicit confirmation that there were no refunds; order counts require order-level detail and order IDs; gross profit requires cost data. Missing inputs are reported as unavailable rather than inferred.
 
-Runtime datasets, analyses, conversations, reports, and uploads are stored under `.runtime/` and are excluded from version control. Dataset access is scoped to the active session.
+Runtime datasets, analyses, conversations, reports, and uploads are stored under `.runtime/` and excluded from version control. Conversation records and messages are persisted in SQLite so they survive application restarts. Resources remain scoped to their original session; archived conversations can be viewed and unarchived.
 
 ## Tests
 

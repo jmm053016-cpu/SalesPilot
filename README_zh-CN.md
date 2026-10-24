@@ -2,7 +2,7 @@
 
 **语言：** [English](README.md) | 简体中文
 
-**一个具备会话隔离能力的销售分析工作台，可将 CSV、Excel 和 SQLite 数据转换为可解释的分析结果及可下载的业务报告。**
+**一款 AI 辅助的销售分析工作台，可将 CSV、Excel 和 SQLite 数据转化为可追溯的指标、业务洞察和可下载报告。**
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/UI-Streamlit-ff4b4b?logo=streamlit&logoColor=white)](https://streamlit.io/)
@@ -10,22 +10,24 @@
 
 [GitHub](https://github.com/jmm053016-cpu/SalesPilot) · [Gitee 镜像](https://gitee.com/gold-m/sales-pilot)
 
-SalesPilot 将确定性的销售指标计算与可选的大语言模型助手结合。应用会校验导入的数据，明确展示可计算的指标，并将分析结果导出为 Word 或 PDF 报告。语言模型可用于文字解读和后续问答，但不会计算或编造数值结果。
+SalesPilot 自动串联数据导入与分析流程。配置 DeepSeek 后，Agent 可以检查数据源、映射字段、校验并保存数据集，然后直接运行分析，无需再手动点击分析。所有指标均由确定性的 Python 分析引擎计算；大模型只解读工具返回的证据并支持后续讨论，不会编造数值。分析报告可导出为 Word 或 PDF。
 
 ## 界面预览
 
-![SalesPilot 数据源工作台](screenshots/salespilot-workbench.png)
+![SalesPilot 销售分析工作台](screenshots/salespilot-workbench.png)
 
-截图展示了当前版本在上传数据集前的数据源工作台。应用支持 CSV、Excel 和 SQLite 数据源，并引导用户依次完成字段校验、分析配置、结果洞察和报告导出。
+截图展示了当前版本的数据源工作台，包含持久化会话历史以及 CSV、Excel 和 SQLite 导入入口。导入后，Agent 可校验数据并启动分析流程；分析结果和报告会保留在对应会话中。
 
 ## 功能
 
 - 导入 CSV、Excel 文件，或连接受支持的 SQLite 数据源。
-- 将常见列名映射到统一销售数据结构，并在分析前校验日期、金额、币种和数据粒度。
+- 由 Agent 检查源字段、提出映射、校验数据、保存数据集并启动分析。
+- 使用 Decimal 精确处理金额，保留源文件精度，不将导入金额强制四舍五入到两位小数。
 - 根据可用字段计算销售额、净销售额、毛利、订单数、周期对比、排名和异常。
 - 对缺少数据支持的指标明确标记为不可用，不估算缺失值。
 - 将报告和配套图表导出为 Word 或 PDF。
-- 在会话范围内继续分析，并可选用大语言模型助手进行问答。
+- 使用本地 SQLite 持久化会话及其数据集、分析和报告绑定；归档会话只读，也可取消归档。
+- 使用 DeepSeek 助手讨论已保存的分析结果；可选 Tavily 搜索补充外部市场背景。
 - 将助手限制在数据集检查、受控分析请求和报告导出范围内；不接受任意 SQL、Python、文件路径或用户代码。
 
 ## 环境要求
@@ -82,12 +84,12 @@ streamlit run app.py
 
 | 变量 | 用途 |
 | --- | --- |
-| `DEEPSEEK_API_KEY` | 启用 DeepSeek 报告文字解读和后续对话。 |
+| `DEEPSEEK_API_KEY` | 启用 Agent 自动导入/分析、报告解读和后续对话。 |
 | `DEEPSEEK_MODEL` | DeepSeek 模型名称，默认值为 `deepseek-flash`。 |
 | `DEEPSEEK_BASE_URL` | DeepSeek 兼容 API 地址，默认值为 `https://api.deepseek.com`。 |
-| `TAVILY_API_KEY` | 可选。配置后启用 Agent 网页搜索，用于补充行业、市场和竞争背景。 |
+| `TAVILY_API_KEY` | 可选。用于搜索外部市场和行业背景。 |
 
-没有 DeepSeek 凭据时，确定性分析和报告导出仍可使用；模型辅助的文字解读和后续问答将不可用。没有 Tavily 凭据时，Agent 仍可使用本地数据导入、确定性分析和报告工具，只是不会进行网页搜索。网页搜索仅用于外部背景检索，不参与销售指标计算，也不能替代当前数据集中的事实。
+没有 DeepSeek 凭据时，确定性分析和报告生成仍可使用，但 Agent 自动工作流及模型辅助讨论不可用。Tavily 为可选项，仅增加网页搜索能力；搜索结果不参与销售指标计算。
 
 ## 数据与分析
 
@@ -95,9 +97,9 @@ streamlit run app.py
 
 必需字段包括可解析的订单日期和非负销售金额。退款、成本、订单 ID、数量、产品、类别、地区和币种等可选字段可启用更多指标和细分分析。不接受混合币种数据集，应用不会执行货币换算。
 
-分析结果由确定性逻辑计算。例如，净销售额需要退款信息或明确确认没有退款；订单数需要订单粒度数据和订单 ID；毛利需要成本数据。缺少必要输入时会标记为不可用，而不是推断数值。
+分析结果由确定性逻辑计算，金额使用 Decimal 精度处理。例如，净销售额需要退款信息或明确确认没有退款；订单数需要订单粒度数据和订单 ID；毛利需要成本数据。缺少必要输入时会标记为不可用，而不是推断数值。
 
-运行时数据集、分析结果、对话、报告和上传文件存储在 `.runtime/` 下，并从版本控制中排除。数据集访问范围限定于当前会话。
+运行时数据集、分析结果、对话、报告和上传文件存储在 `.runtime/` 下，并从版本控制中排除。对话和消息写入 SQLite，项目重启后仍可恢复。资源始终绑定原始会话；归档会话可查看，也可取消归档。
 
 ## 测试
 
