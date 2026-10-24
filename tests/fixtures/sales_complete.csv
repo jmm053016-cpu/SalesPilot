@@ -1,0 +1,26 @@
+﻿order_date,order_id,line_id,sales_amount,refund_amount,cost_amount,quantity,product_id,product_name,category,region,currency,order_status
+2023/1/8,ORD-2301-001,LINE-001,120,0,60,2,P-001,Trail Shoes,运动户外,North America,USD,completed
+2023/2/14,ORD-2302-001,LINE-002,95.5,0,42,1,P-002,Canvas Jacket,服装,Europe,USD,completed
+2023/3/11,ORD-2303-001,LINE-003,88,8,35,2,P-003,Kitchen Set,家居用品,Asia,USD,completed
+2023/4/19,ORD-2304-001,LINE-004,132,0,70,3,P-004,Wireless Mouse,电子产品,North America,USD,completed
+2023/5/6,ORD-2305-001,LINE-005,76,0,31,2,P-005,Baby Carrier,母婴,Europe,USD,completed
+2023/6/17,ORD-2306-001,LINE-006,145,0,80,2,P-001,Trail Shoes,运动户外,Asia,USD,completed
+2023/7/22,ORD-2307-001,LINE-007,110,10,48,1,P-002,Canvas Jacket,服装,North America,USD,completed
+2023/8/9,ORD-2308-001,LINE-008,101,0,45,2,P-003,Kitchen Set,家居用品,Europe,USD,completed
+2023/9/15,ORD-2309-001,LINE-009,139,0,72,2,P-004,Wireless Mouse,电子产品,Asia,USD,completed
+2023/10/3,ORD-2310-001,LINE-010,84,0,36,1,P-005,Baby Carrier,母婴,North America,USD,completed
+2023/11/18,ORD-2311-001,LINE-011,125,0,62,2,P-001,Trail Shoes,运动户外,Europe,USD,completed
+2023/12/27,ORD-2312-001,LINE-012,118,0,55,2,P-002,Canvas Jacket,服装,Asia,USD,completed
+2024/1/7,ORD-2401-001,LINE-013,128,0,64,2,P-001,Trail Shoes,运动户外,North America,USD,completed
+2024/2/16,ORD-2402-001,LINE-014,102,0,45,1,P-002,Canvas Jacket,服装,Europe,USD,completed
+2024/3/12,ORD-2403-001,LINE-015,96,0,38,2,P-003,Kitchen Set,家居用品,Asia,USD,completed
+2024/4/21,ORD-2404-001,LINE-016,149,0,77,3,P-004,Wireless Mouse,电子产品,North America,USD,completed
+2024/5/5,ORD-2405-001,LINE-017,81,0,34,2,P-005,Baby Carrier,母婴,Europe,USD,completed
+2024/6/14,ORD-2406-001,LINE-018,420,0,180,6,P-001,Trail Shoes,运动户外,Asia,USD,completed
+2024/6/14,ORD-2406-001,LINE-019,210,0,90,3,P-002,Canvas Jacket,服装,Asia,USD,completed
+2024/7/23,ORD-2407-001,LINE-020,42,0,20,1,P-003,Kitchen Set,家居用品,North America,USD,completed
+2024/8/10,ORD-2408-001,LINE-021,155,15,68,2,P-004,Wireless Mouse,电子产品,Europe,USD,completed
+2024/9/18,ORD-2409-001,LINE-022,171,0,80,3,P-005,Baby Carrier,母婴,Asia,USD,completed
+2024/10/2,ORD-2410-001,LINE-023,134,0,59,2,P-001,Trail Shoes,运动户外,North America,USD,completed
+2024/11/11,ORD-2411-001,LINE-024,119,0,51,2,P-002,Canvas Jacket,服装,Europe,USD,completed
+2024/12/29,ORD-2412-001,LINE-025,188,0,82,3,P-004,Wireless Mouse,电子产品,Asia,USD,completed

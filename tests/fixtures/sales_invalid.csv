@@ -1,0 +1,6 @@
+order_date,order_id,line_id,sales_amount,refund_amount,cost_amount,quantity,product_id,product_name,category,region,currency,order_status
+,ORD-BAD-001,LINE-BAD-001,100.00,0.00,40.00,1,P-001,Missing Date,运动户外,North America,USD,completed
+not-a-date,ORD-BAD-002,LINE-BAD-002,80.00,0.00,30.00,1,P-002,Bad Date,服装,Europe,USD,completed
+2024-02-01,ORD-BAD-003,LINE-BAD-003,-10.00,0.00,5.00,1,P-003,Negative Sale,家居用品,Asia,USD,completed
+2024-03-01,ORD-BAD-004,LINE-BAD-004,90.00,0.00,40.00,1,P-004,Mixed Currency,电子产品,North America,EUR,completed
+2024-04-01,ORD-BAD-005,LINE-BAD-005,75.00,0.00,30.00,1,P-005,Missing Category,,USD,completed
